@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+
+# Config local (contém os perfis reais)
+config.toml
+
+# Journal
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# Scripts de sondagem temporários
+_probe*.py
+_probe*.json

@@ -1,0 +1,29 @@
+[server]
+# 127.0.0.1: só a máquina local alcança o serviço (sem auth, mantenha assim).
+# 0.0.0.0: obrigatório dentro do Docker; ponha proxy/auth na frente antes.
+host = "127.0.0.1"
+port = 8080
+
+[storage]
+db_path = "./data/feed-service.db"
+
+[defaults]
+interval_minutes = 15
+jitter_seconds = 90
+fetch_limit = 5
+feed_max_entries = 20
+# Teto do backoff exponencial em falhas consecutivas. A cada falha o intervalo
+# dobra em cima do base; capa aqui pra não bater na fonte por horas se algo
+# quebrar de madrugada. Reseta em qualquer raspagem bem-sucedida.
+max_backoff_minutes = 240
+
+# Um bloco por perfil. `name` é o slug do feed: /feed/<name>.xml.
+# `channel_id` é o ID interno do TikTok (começa com MS4w).
+#
+# Para descobrir o channel_id:
+#   yt-dlp --flat-playlist --playlist-end 1 -J "https://www.tiktok.com/@usuario" \
+#     | python -c "import json,sys; print(json.load(sys.stdin)['entries'][0]['channel_id'])"
+[[profiles]]
+name = "example_user"
+channel_id = "MS4wLjABAAAA..."
+# interval_minutes = 60  # opcional, sobrepõe o default para este perfil

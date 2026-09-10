@@ -1,0 +1,29 @@
+# Venv local
+.venv/
+
+# Bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# VCS
+.git/
+.gitignore
+
+# Runtime data (nunca entra na imagem; sempre via volume)
+data/
+*.db
+*.db-wal
+*.db-shm
+
+# Config real (contém os perfis do usuário; sempre via volume/bind)
+config.toml
+
+# Editor / agente
+.vscode/
+.idea/
+.kiro/
+
+# Docker files (evita self-reference no cache)
+Dockerfile
+.dockerignore
