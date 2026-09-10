@@ -77,9 +77,16 @@ class FeedWorker:
     def _process_due_profiles(self):
         now = datetime.now(timezone.utc)
         for profile in self.config["profiles"]:
-            next_run = self._profile_schedules.get(profile["name"])
-            if not next_run or now < next_run:
+            name = profile["name"]
+            next_run = self._profile_schedules.get(name)
+            if not next_run:
+                logger.warning(f"{name} not in schedule! This should not happen.")
                 continue
+            if now < next_run:
+                time_until = (next_run - now).total_seconds()
+                logger.debug(f"{name} not due yet ({time_until:.0f}s remaining)")
+                continue
+            logger.info(f"{name} is due, executing fetch")
             self._fetch_profile(profile)
             self._reschedule_profile(profile)
 
