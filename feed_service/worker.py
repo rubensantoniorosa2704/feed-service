@@ -92,12 +92,12 @@ class FeedWorker:
 
     def _fetch_profile(self, profile: dict):
         name = profile["name"]
-        channel_id = profile["channel_id"]
+        username = profile["username"]
         limit = self.config["defaults"]["fetch_limit"]
 
-        logger.info(f"Fetching {name} ({channel_id})")
+        logger.info(f"Fetching {name} (@{username})")
         try:
-            videos = self.tiktok.fetch_recent_videos(channel_id, limit)
+            videos = self.tiktok.fetch_recent_videos(username, limit)
             added = self.journal.add_entries(name, videos)
             self.journal.update_profile_state(name, success=True)
             if added > 0:

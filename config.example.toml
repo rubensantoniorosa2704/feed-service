@@ -17,13 +17,11 @@ feed_max_entries = 20
 # quebrar de madrugada. Reseta em qualquer raspagem bem-sucedida.
 max_backoff_minutes = 240
 
-# Um bloco por perfil. `name` é o slug do feed: /feed/<name>.xml.
-# `channel_id` é o ID interno do TikTok (começa com MS4w).
-#
-# Para descobrir o channel_id:
-#   yt-dlp --flat-playlist --playlist-end 1 -J "https://www.tiktok.com/@usuario" \
-#     | python -c "import json,sys; print(json.load(sys.stdin)['entries'][0]['channel_id'])"
+# Um bloco por perfil.
+# `name` é o slug do feed: /feed/<name>.xml.
+# `username` é o handle público do TikTok (o @ da URL, sem o @).
+# Ex: https://www.tiktok.com/@fulano -> username = "fulano"
 [[profiles]]
 name = "example_user"
-channel_id = "MS4wLjABAAAA..."
+username = "fulano"
 # interval_minutes = 60  # opcional, sobrepõe o default para este perfil

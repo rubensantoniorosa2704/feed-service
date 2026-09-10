@@ -16,7 +16,7 @@ def setup_logging(debug: bool = False):
         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
         datefmt="%H:%M:%S",
     )
-    logging.getLogger("yt_dlp").setLevel(logging.WARNING)
+    logging.getLogger("playwright").setLevel(logging.WARNING)
 
 
 def _parse_args(argv: list[str]) -> tuple[bool, str]:

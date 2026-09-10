@@ -7,7 +7,7 @@ Gerador de feeds Atom para perfis do TikTok (e futuras fontes).
 Raspa vídeos de perfis do TikTok em intervalos configuráveis e expõe um feed Atom (RSS moderno) que leitores de feed (Feedly, Apple Podcasts, etc) conseguem consumir.
 
 ```
-TikTok @profile → yt-dlp → SQLite → Atom feed (via HTTP)
+TikTok @profile → Playwright (Chromium headless) → SQLite → Atom feed (via HTTP)
 ```
 
 ## Setup
@@ -82,22 +82,17 @@ feed_max_entries = 20      # Vídeos no feed
 
 [[profiles]]
 name = "lalann_r"          # Slug do feed: /feed/lalann_r.xml
-channel_id = "MS4w..."     # ID interno do TikTok
+username = "lalann_r"      # Handle do TikTok (o @ da URL, sem o @)
 # interval_minutes = 60    # (opcional) override por perfil
 ```
 
-Para descobrir o `channel_id` de um perfil:
-
-```bash
-yt-dlp --flat-playlist --playlist-end 1 -J "https://www.tiktok.com/@usuario" \
-  | python -c "import json,sys; print(json.load(sys.stdin)['entries'][0]['channel_id'])"
-```
+O `username` é o handle público do TikTok. Para `https://www.tiktok.com/@lalann_r`, o username é `lalann_r`.
 
 ## Arquitetura
 
 - **`clock.py`** — Centralização de timestamps (UTC, segundo-precisão, canonical format)
 - **`db.py`** — Journal SQLite thread-safe (entries + profile state)
-- **`sources/tiktok.py`** — Extração via yt-dlp
+- **`sources/tiktok.py`** — Extração via Playwright (Chromium headless)
 - **`worker.py`** — Scheduler em background thread
 - **`web.py`** — API HTTP (Flask)
 - **`atom.py`** — Renderizador de feed Atom (RFC 4287 + Media RSS)

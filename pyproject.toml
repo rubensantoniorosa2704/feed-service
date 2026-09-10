@@ -29,8 +29,11 @@ classifiers = [
 ]
 
 dependencies = [
-    # Raspagem do TikTok. É a razão de este serviço ser Python.
-    "yt-dlp==2026.8.19",
+    # Raspagem do TikTok via navegador headless. É a razão de este serviço ser
+    # Python — TikTok bloqueia clientes HTTP simples pelo fingerprint de bot,
+    # e um Chromium real evade essa detecção. A versão precisa casar com a
+    # imagem base do Dockerfile (mcr.microsoft.com/playwright/python:vX.Y.Z).
+    "playwright==1.62.0",
     
     # HTTP
     "flask==3.1.0",
